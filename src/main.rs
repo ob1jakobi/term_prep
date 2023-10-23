@@ -1,12 +1,21 @@
 use cursive::views::{Dialog, TextView};
 
-fn main() {
-    let mut siv = cursive::default();
+const LOGO: &str = "
+ ______   ______     ______     __    __        ______   ______     ______     ______  
+/\__  _\ /\  ___\   /\  == \   /\ \"-./  \      /\  == \ /\  == \   /\  ___\   /\  == \ 
+\/_/\ \/ \ \  __\   \ \  __<   \ \ \-./\ \     \ \  _-/ \ \  __<   \ \  __\   \ \  _-/ 
+   \ \_\  \ \_____\  \ \_\ \_\  \ \_\ \ \_\     \ \_\    \ \_\ \_\  \ \_____\  \ \_\   
+    \/_/   \/_____/   \/_/ /_/   \/_/  \/_/      \/_/     \/_/ /_/   \/_____/   \/_/   
+                                                                                       
+";
 
-    siv.add_layer(
-        Dialog::around(TextView::new("Hello dialog!"))
-            .title("Cursive")
-            .button("Quit", |s| s.quit()),
-    );
-    siv.run();
+fn main() {
+    let mut siv = Cursive::default();
+    
+    // The logo as ASCII art.
+    let logo_view = TextView::new(LOGO);
+
+    // View for selecting which exam you want to study for. Exams are based on JSON files that store the questions
+    // for the respective exam.
+    let exam_select_view;
 }
