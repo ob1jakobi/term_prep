@@ -34,13 +34,6 @@ fn main() {
     // The logo as ASCII art for display as the title of the main menu.
     let logo_view = TextView::new(LOGO);
 
-    // Select Exam Type, based on
-
-    // View for selecting which exam you want to study for. Exams are based on JSON files that store the questions
-    // for the respective exam.
-    let exam_select_view = SelectView::<String>::new();
-
-    // RadioGroup for selecting which quiz type the user wants to conduct
-
-    // siv.run();
+    // Select Exam Type, based on file path that user enters
+    // TODO:
 }
