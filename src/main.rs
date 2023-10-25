@@ -1,4 +1,5 @@
-use cursive::views::{SelectView, TextView};
+use std::fs::File;
+use cursive::views::{EditView, SelectView, TextView};
 use cursive::Cursive;
 use serde::{Deserialize, Serialize};
 
@@ -34,6 +35,6 @@ fn main() {
     // The logo as ASCII art for display as the title of the main menu.
     let logo_view = TextView::new(LOGO);
 
-    // Select Exam Type, based on file path that user enters
-    // TODO:
+    // EditView for getting Exam Type based on filename/location, based on file path that user enters
+    let exam_name_view = EditView::new();
 }
