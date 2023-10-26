@@ -4,6 +4,8 @@ use cursive::{Cursive, CursiveExt};
 use serde::{Deserialize, Serialize};
 use std::fs::{File, OpenOptions};
 use std::path::PathBuf;
+use std::thread;
+use std::time::Duration;
 
 const LOGO: &str = "
                                                                         
@@ -91,5 +93,6 @@ fn validate_exam_filename(s: &mut Cursive, filename: &str) {
 
 fn select_test_type(s: &mut Cursive, _f: File) {
     s.add_layer(Dialog::info("Yay! You've validated a file"));
+    thread::sleep(Duration::from_secs(2));
     s.quit();
 }
