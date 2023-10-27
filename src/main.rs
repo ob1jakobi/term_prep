@@ -2,10 +2,9 @@ use cursive::traits::*;
 use cursive::views::{Dialog, DummyView, EditView, LinearLayout, TextView};
 use cursive::{Cursive, CursiveExt};
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::fs::{File, OpenOptions};
 use std::path::PathBuf;
-use std::thread;
-use std::time::Duration;
 
 const LOGO: &str = "
                                                                         
@@ -25,14 +24,13 @@ struct Question {
     choices: Vec<String>,
     answer: String,
     subject_domain: String,
-    has_seen: bool,
-    answered_incorrectly: bool,
 }
 
 struct _User {
     username: String,
     exams: Vec<String>,
-    seen_questions: Vec<Question>,
+    seen_questions: HashMap<String, Vec<Question>>,
+    incorrectly_answered: HashMap<String, Vec<Question>>,
 }
 
 fn main() {
@@ -58,9 +56,12 @@ fn main() {
             .child(logo_and_exam_view),
     )
     .button("OK", |s| {
-        match s.call_on_name("filename_entry", |v: &mut EditView| v.get_content()) {
-            Some(filename) => validate_exam_filename(s, &filename),
-            _ => validate_exam_filename(s, ""),
+        if let Some(filename) = s.call_on_name("filename_entry", |v: &mut EditView| v.get_content())
+        {
+            s.add_layer(Dialog::info(format!("Obtained filename: {}", filename)));
+            validate_exam_filename(s, &filename);
+        } else {
+            s.add_layer(Dialog::info("Please enter a valid filename..."));
         }
     })
     .button("Quit", |s: &mut Cursive| {
@@ -93,6 +94,4 @@ fn validate_exam_filename(s: &mut Cursive, filename: &str) {
 
 fn select_test_type(s: &mut Cursive, _f: File) {
     s.add_layer(Dialog::info("Yay! You've validated a file"));
-    thread::sleep(Duration::from_secs(2));
-    s.quit();
 }
