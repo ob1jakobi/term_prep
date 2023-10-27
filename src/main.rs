@@ -73,6 +73,14 @@ fn main() {
     siv.run();
 }
 
+/// Validates the filename the user entered in the EditView. Should do the following:
+/// * Check that the file is a JSON file containing the questions formatted in a way that can be
+///   parsed according to the `Question` struct above.
+/// * Check to see that the user has a file that records their statistics regarding `Question`s the
+///   user has seen and which ones they have answered incorrectly. If no file is available, then
+///   it should create one in the `assets` directory.
+/// * Assuming the previous two points have been achieved, this function will go to the next
+///   layer where it asks the user what type of test they want to do.
 fn validate_exam_filename(s: &mut Cursive, filename: &str) {
     if filename.is_empty() {
         s.add_layer(Dialog::info("Filename for exam must not be empty!"));
@@ -92,6 +100,12 @@ fn validate_exam_filename(s: &mut Cursive, filename: &str) {
     }
 }
 
-fn select_test_type(s: &mut Cursive, _f: File) {
-    s.add_layer(Dialog::info("Yay! You've validated a file"));
+fn select_test_type(s: &mut Cursive, f: File) {
+    match f.metadata() {
+        Ok(md) => s.add_layer(Dialog::info(format!("File metadata:\t{:?}", md))),
+        Err(e) => s.add_layer(Dialog::info(format!(
+            "Error getting metadata for file: {}",
+            e
+        ))),
+    }
 }
